@@ -1,1 +1,27 @@
-export async function sendCode(to:string,code:string){const r=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${process.env.RESEND_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.EMAIL_FROM!,to:[to],subject:'Код входа EMSELL',html:`<div style="font-family:Arial"><h2>EMSELL</h2><p>Ваш код подтверждения:</p><h1 style="letter-spacing:8px">${code}</h1><p>Код действует 10 минут.</p></div>`})});if(!r.ok)throw new Error(await r.text())}
+export async function sendCode(to: string, code: string) {
+  const response = await fetch(
+    'https://api.emailjs.com/api/v1.0/email/send',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        service_id: process.env.EMAILJS_SERVICE_ID!,
+        template_id: process.env.EMAILJS_TEMPLATE_ID!,
+        user_id: process.env.EMAILJS_PUBLIC_KEY!,
+        accessToken: process.env.EMAILJS_PRIVATE_KEY!,
+        template_params: {
+          to_email: to,
+          code: code,
+        },
+      }),
+    }
+  )
+
+  if (!response.ok) {
+    throw new Error(
+      `EmailJS error: ${response.status} ${await response.text()}`
+    )
+  }
+}
