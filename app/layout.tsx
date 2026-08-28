@@ -1,0 +1,3 @@
+import './globals.css'; import Link from 'next/link'; import { getSession } from '@/lib/auth';
+export const metadata={title:'EMSELL — онлайн-магазин игр',description:'Товары для игр'};
+export default async function RootLayout({children}:{children:React.ReactNode}){const s=await getSession();return <html lang="ru"><body>{s&&<header className="top"><Link className="brand" href="/"><img src="/emsell-logo.jpg"/>EMSELL</Link><div className="row"><Link href="/create">Продать</Link><Link href="/profile">Профиль</Link>{s.isAdmin&&<Link href="/admin">Админ</Link>}</div></header>}{children}</body></html>}

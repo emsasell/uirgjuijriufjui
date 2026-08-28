@@ -1,0 +1,1 @@
+"use client";import {useEffect,useState} from 'react';export default function Toast(){const [t,setT]=useState('');useEffect(()=>{const f=(e:any)=>{setT(e.detail);setTimeout(()=>setT(''),3500)};addEventListener('emsell-toast',f);return()=>removeEventListener('emsell-toast',f)},[]);return t?<div className="toast">{t}</div>:null}

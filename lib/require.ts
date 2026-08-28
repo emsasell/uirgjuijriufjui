@@ -1,0 +1,1 @@
+import {NextResponse} from 'next/server';import {getSession} from './auth';export async function requireUser(){const s=await getSession();if(!s)return {error:NextResponse.json({error:'Требуется вход'},{status:401})};return {session:s}}
